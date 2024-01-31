@@ -5,6 +5,7 @@ local friendlyHttpStatus={['200']='OK',['201']='Created',['202']='Accepted',['20
 local function producer(message)
     local config = require 'rdkafka.config'.create()
     local kafkaServer = os.getenv("AKTO_KAFKA_IP")
+    print("traffic : ", message)
     if kafkaServer~=nil then
         config["statistics.interval.ms"] = "100"
         config["bootstrap.servers"] = kafkaServer
