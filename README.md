@@ -33,7 +33,7 @@ docker push <your-docker-id>:istio-proxy
         image: <your-docker-id>/istio-proxy:latest
         env:
         - name: AKTO_KAFKA_IP
-          # you will find this on your akto dashboard after you've deployed the traffic processing stack.
+          # you will find this on your akto dashboard after you've deployed the traffic processing stack using akto.
           value: "<AKTO_NLB_IP>:9092"
       volumes:
       - name: tmp
@@ -41,7 +41,12 @@ docker push <your-docker-id>:istio-proxy
 ...
 ```
 
-3. Now we will add the envoy filter to the istio-proxy containers. For more information on custom envoy filters you can check the [official docs](https://istio.io/latest/docs/reference/config/networking/envoy-filter). To add that run the following command. You can modify the "match" conditions in the file according to your deployment.
+3. After modifying the configuration, apply it in your kubernetes cluster.
+```bash
+kubectl apply -f <your-deployment-file>
+```
+
+4. Now we will add the envoy filter to the istio-proxy containers. For more information on custom envoy filters you can check the [official docs](https://istio.io/latest/docs/reference/config/networking/envoy-filter). To add that run the following command. You can modify the "match" conditions in the file according to your deployment.
 
 ```bash
 kubectl apply -f akto-envoy-filter.yaml

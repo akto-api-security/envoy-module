@@ -10,9 +10,9 @@ RUN /bin/bash -c "apt update -y \
 
 RUN /bin/bash -c "wget https://github.com/akto-api-security/envoy-module/archive/refs/heads/feature/istio.zip \
     && echo 'downloaded module directory' \
-    && unzip master.zip \
+    && unzip istio.zip \
     && lua_version=\$(lua -e 'print(_VERSION:match(\"%d+%.%d+\"))') \
-    && mv ./envoy-module-master/rdkafka /usr/local/share/lua/\$lua_version/rdkafka \
-    && mv ./envoy-module-master/aktoModule.lua /usr/local/share/lua/\$lua_version/aktoModule.lua \
+    && mv ./envoy-module-feature-istio/rdkafka /usr/local/share/lua/\$lua_version/rdkafka \
+    && mv ./envoy-module-feature-istio/aktoModule.lua /usr/local/share/lua/\$lua_version/aktoModule.lua \
     && chmod 777 /usr/local/share/lua/\$lua_version/aktoModule.lua \
     && chmod 777 /usr/local/share/lua/\$lua_version/rdkafka"
