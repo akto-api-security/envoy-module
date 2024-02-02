@@ -11,7 +11,7 @@ local function producer(message)
         config["statistics.interval.ms"] = "0"
         config["bootstrap.servers"] = kafkaServer
         config["batch.num.messages"] = "100"
-        config["queue.buffering.max.ms"] = "10"
+        config["queue.buffering.max.ms"] = "10000"
 
         local producer = require 'rdkafka.producer'.create(config)
         local topic_config = require 'rdkafka.topic_config'.create()
@@ -20,6 +20,7 @@ local function producer(message)
         local topic = require 'rdkafka.topic'.create(producer, "akto.api.logs", topic_config)
 
         local KAFKA_PARTITION_UA = -1
+        print("producing")
         producer:produce(topic, KAFKA_PARTITION_UA, message)
 
     end
