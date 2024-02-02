@@ -6,10 +6,11 @@ local function producer(message)
     local config = require 'rdkafka.config'.create()
     local kafkaServer = os.getenv("AKTO_KAFKA_IP")
     if kafkaServer~=nil then
-        config["statistics.interval.ms"] = "100"
+        -- disable stats
+        config["statistics.interval.ms"] = "0"
         config["bootstrap.servers"] = kafkaServer
-        config:set_delivery_cb(function (payload, err) print("Delivery Callback '"..payload.."'") end)
-        config:set_stat_cb(function (payload) print("Stat Callback '"..payload.."'") end)
+        config["batch.num.messages"] = "100"
+        config["queue.buffering.max.ms"] = "10000"
 
         local producer = require 'rdkafka.producer'.create(config)
         local topic_config = require 'rdkafka.topic_config'.create()
@@ -20,9 +21,6 @@ local function producer(message)
         local KAFKA_PARTITION_UA = -1
         producer:produce(topic, KAFKA_PARTITION_UA, message)
 
-        while producer:outq_len() ~= 0 do
-            producer:poll(10)
-        end
     end
 end
 
